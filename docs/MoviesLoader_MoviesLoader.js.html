@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: Pagination</title>
+    <title>JSDoc: Source: MoviesLoader/MoviesLoader.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,137 +17,44 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: Pagination</h1>
+    <h1 class="page-title">Source: MoviesLoader/MoviesLoader.js</h1>
 
     
 
 
 
-
-<section>
-
-<header>
     
-        <h2><span class="attribs"><span class="type-signature"></span></span>Pagination<span class="signature">()</span><span class="type-signature"></span></h2>
-        
-    
-</header>
-
-<article>
-    <div class="container-overview">
-    
-        
-
-    
-
-    
-    <h4 class="name" id="Pagination"><span class="type-signature"></span>new Pagination<span class="signature">()</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    <p>A component that displays a paging</p>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Pagination_Pagination.js.html">Pagination/Pagination.js</a>, <a href="Pagination_Pagination.js.html#line24">line 24</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-    </div>
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</article>
-
-</section>
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React from "react";
+import { DotLoader } from "react-spinners";
+
+import "./MoviesLoader.css";
+
+// #region COMPONENT
+/**
+* A component that displays a loader in the movie List
+* @class
+* @category MoviesLoader
+*/
+const MoviesLoader = () => {
+  // #region INTERFACE
+  return (
+    &lt;div className="FilmsLoader-Container">
+      &lt;DotLoader
+        color={"var(--main-border-color"}
+        size={50}
+      />
+    &lt;/div>
+  );
+  // #endregion
+};
+// #endregion
+
+export { MoviesLoader };
+</code></pre>
+        </article>
+    </section>
 
 
 

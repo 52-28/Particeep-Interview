@@ -26,15 +26,14 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import { LOADING } from "../../Store/Constants";
+            <pre class="prettyprint source linenums"><code>import { numberByPageModifed, pageSelected } from "../../Store/actions";
+import { LOADING } from "../../Store/constants";
 import {
-    numberByPageModifed,
-    pageSelected,
-    selectCurrentPage,
-    selectMoviesStatus,
-    selectNumberByPage,
-    selectPageCount
-} from "../../Store/moviesSlice";
+  selectCurrentPage,
+  selectMoviesStatus,
+  selectNumberByPage,
+  selectPageCount
+} from "../../Store/selectors";
 import { NbPerPageSelector } from "./NbPerPageSelector";
 import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -51,122 +50,123 @@ import "./Pagination.css";
 * @category Pagination
 */
 const Pagination = () => {
-    // #region INITIALISATION
-    // Selectors
-    const page = useSelector(selectCurrentPage);
-    const numberOfPage = useSelector(selectPageCount);
-    const numberByPage = useSelector(selectNumberByPage);
-    const status = useSelector(selectMoviesStatus);
+  // #region INITIALISATION
+  // Selectors
+  const page = useSelector(selectCurrentPage);
+  const numberOfPage = useSelector(selectPageCount);
+  const numberByPage = useSelector(selectNumberByPage);
+  const status = useSelector(selectMoviesStatus);
 
-    // Dispatch
-    const dispatch = useDispatch();
-    // #endregion
+  // Dispatch
+  const dispatch = useDispatch();
+  // #endregion
 
-    // #region EVENTS
-    // Changing number by page 
-    const handleChangeNumberByPage = (e) => {
-        let value = e.target.value;
-        if (value === numberByPage) {
-            return;
-        }
+  // #region EVENTS
+  // Changing number by page
+  const handleChangeNumberByPage = (e) => {
+    let value = e.target.value;
+    if (value === numberByPage) {
+      return;
+    }
 
-        // Apply
-        dispatch(numberByPageModifed(e.target.value));
-    };
+    // Apply
+    dispatch(numberByPageModifed(e.target.value));
+  };
 
-    // Select a page
-    const handleClick = (number) => {
-        if (number === page) {
-            return;
-        }
+  // Select a page
+  const handleClick = (number) => {
+    if (number === page) {
+      return;
+    }
 
-        // Apply
-        dispatch(pageSelected(number));
-    };
+    // Apply
+    dispatch(pageSelected(number));
+  };
 
-    // Click on previous button
-    const handleClickLeft = () => {
-        if (page === 1) {
-            return;
-        }
+  // Click on previous button
+  const handleClickLeft = () => {
+    if (page === 1) {
+      return;
+    }
 
-        handleClick(page - 1);
-    };
+    handleClick(page - 1);
+  };
 
-    // Click on next button
-    const handleClickRight = () => {
-        if (page === numberOfPage) {
-            return;
-        }
+  // Click on next button
+  const handleClickRight = () => {
+    if (page === numberOfPage) {
+      return;
+    }
 
-        handleClick(page + 1);
-    };
-    // #endregion
+    handleClick(page + 1);
+  };
+  // #endregion
 
-    // #region INTERFACE
-    // Return an array of pages number
-    const renderPages = () => {
-        let pages = [];
+  // #region INTERFACE
+  // Return an array of pages number
+  const renderPages = () => {
+    let pages = [];
 
-        for (let i = 1; i &lt;= numberOfPage; i++) {
-            pages.push({ number: i });
-        }
+    for (let i = 1; i &lt;= numberOfPage; i++) {
+      pages.push({ number: i });
+    }
 
-        return pages;
-    };
+    return pages;
+  };
 
-    // Interface
-    return (
-        &lt;div className="Pagination-MainContainer">
-            &lt;div className="Pagination-Container">
-                {/* left button */}
-                &lt;button
-                    className="Pagination-Button"
-                    onClick={handleClickLeft}
-                >
-                    &lt;FontAwesomeIcon icon={faArrowLeft} />
-                &lt;/button>
-                {/* pages */}
-                &lt;div className="Pagination-PagesContainer">
-                    {status === LOADING
-                        ?
-                        &lt;ClipLoader
-                            color={"var(--main-border-color)"}
-                            loading={true}
-                            size={40}
-                        />
-                        :
-                        renderPages().map((pageOf, index) => {
-                            return (
-                                &lt;div
-                                    className={page === pageOf.number ? "Pagination-Page Pagination-Page-Selected" : "Pagination-Page"}
-                                    key={`${index}`}
-                                    onClick={() => { handleClick(pageOf.number) }}
-                                >
-                                    {pageOf.number}
-                                &lt;/div>
-                            )
-                        })
-                    }
-                &lt;/div>
-                {/* right button */}
-                &lt;button
-                    className="Pagination-Button"
-                    onClick={handleClickRight}
-                >
-                    &lt;FontAwesomeIcon icon={faArrowRight} />
-                &lt;/button>
-            &lt;/div>
-            &lt;NbPerPageSelector
-                onChange={handleChangeNumberByPage}
-                value={numberByPage}
+  // Interface
+  return (
+    &lt;div className="Pagination-MainContainer">
+      &lt;div className="Pagination-Container">
+        {/* left button */}
+        &lt;button
+          className="Pagination-Button"
+          onClick={handleClickLeft}
+        >
+          &lt;FontAwesomeIcon icon={faArrowLeft} />
+        &lt;/button>
+        {/* pages */}
+        &lt;div className="Pagination-PagesContainer">
+          {status === LOADING
+            ?
+            &lt;ClipLoader
+              color={"var(--main-border-color)"}
+              loading={true}
+              size={40}
             />
+            :
+            renderPages().map((pageOf, index) => {
+              return (
+                &lt;div
+                  className={page === pageOf.number ? "Pagination-Page Pagination-Page-Selected" : "Pagination-Page"}
+                  key={`${index}`}
+                  onClick={() => { handleClick(pageOf.number); }}
+                >
+                  {pageOf.number}
+                &lt;/div>
+              );
+            })
+          }
         &lt;/div>
-    );
+        {/* right button */}
+        &lt;button
+          className="Pagination-Button"
+          onClick={handleClickRight}
+        >
+          &lt;FontAwesomeIcon icon={faArrowRight} />
+        &lt;/button>
+      &lt;/div>
+      &lt;NbPerPageSelector
+        onChange={handleChangeNumberByPage}
+        value={numberByPage}
+      />
+    &lt;/div>
+  );
 };
 // #endregion
 
-export { Pagination };</code></pre>
+export { Pagination };
+</code></pre>
         </article>
     </section>
 
@@ -176,13 +176,13 @@ export { Pagination };</code></pre>
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="CategorieFilter.html">CategorieFilter</a></li><li><a href="FilmsLoader.html">FilmsLoader</a></li><li><a href="LikeCounter.html">LikeCounter</a></li><li><a href="Movie.html">Movie</a></li><li><a href="MovieList.html">MovieList</a></li><li><a href="NbPerPageSelector.html">NbPerPageSelector</a></li><li><a href="Pagination.html">Pagination</a></li><li><a href="ProgressBar.html">ProgressBar</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="CategorieFilter.html">CategorieFilter</a></li><li><a href="LikeCounter.html">LikeCounter</a></li><li><a href="Movie.html">Movie</a></li><li><a href="MovieList.html">MovieList</a></li><li><a href="MoviesLoader.html">MoviesLoader</a></li><li><a href="NbPerPageSelector.html">NbPerPageSelector</a></li><li><a href="Pagination.html">Pagination</a></li><li><a href="ProgressBar.html">ProgressBar</a></li><li><a href="Title.html">Title</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Wed Jul 27 2022 17:49:09 GMT+0200 (heure d’été d’Europe centrale)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Thu Jul 28 2022 22:08:02 GMT+0200 (heure d’été d’Europe centrale)
 </footer>
 
 <script> prettyPrint(); </script>
