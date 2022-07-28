@@ -17,6 +17,7 @@ const applyCategoryFilterOnMovies = (state) => {
     return movies.filter(movie => movie.category === state.category);
   }
 
+  // If no category filter, return state.movies
   return movies;
 };
 
@@ -28,7 +29,7 @@ const applyCurrentPage = (state) => {
   let movies = applyCategoryFilterOnMovies(state);
 
   firstItemOfPage = (page - 1) * state.numberByPage;
-  movies = movies.slice(firstItemOfPage, firstItemOfPage + state.numberByPage);
+  movies = movies.slice(firstItemOfPage, firstItemOfPage + Number(state.numberByPage));
   return movies;
 };
 // #endregion
@@ -40,11 +41,14 @@ export const moviesSlice = createSlice({
   reducers: {
     movieDeleted: (state, action) => {
       state.movies = state.movies.filter(movie => movie.id !== action.payload.id);
+      // If the current page has no movies
       if (!applyCurrentPage(state).length) {
         if (state.page > 1) {
+          //  return the previous page
           state.page -= 1;
           state.pageCount -= 1;
         } else {
+          // Delete the category filter and return to 1st page
           state.category = "";
         }
       }
@@ -75,10 +79,12 @@ export const moviesSlice = createSlice({
 
       // // Apply on moviesFiltered
       if (state.category !== "") {
+        // Get movies of the current page
         let moviesFiltered = applyCurrentPage(state);
-        // let moviesFiltered = state.movies.filter(movie => movie.category === state.category);
+        // Get the movie liked
         let movieFiltered = moviesFiltered.find(movie => movie.id === id);
         if (movieFiltered) {
+          // Replace by the original movie
           movieFiltered = movieFinded;
         }
         state.moviesFiltered = moviesFiltered;
@@ -120,51 +126,45 @@ export const moviesSlice = createSlice({
     },
     moviesFiltered: (state, action) => {
       const category = action.payload;
+      // Update category applied
       state.category = category;
+      // Get movies filtered on category
+      let movies = applyCategoryFilterOnMovies(state);
 
-      if (category === "") {
-        state.pageCount = Math.ceil(state.movies.length / state.numberByPage);
-        state.moviesFiltered = state.movies.slice(0, state.numberByPage);
-        state.page = 1;
-
-        return;
-      }
-
-      let movies = state.movies.filter(movie => movie.category === category);
-      state.moviesFiltered = movies.slice(0, state.numberByPage);
+      // Reset current page
       state.page = 1;
+
+      // Update page count
       state.pageCount = Math.ceil(movies.length / state.numberByPage);
+
+      // Filter movies on 1st page
+      state.moviesFiltered = movies.slice(0, state.numberByPage);
     },
     numberByPageModifed: (state, action) => {
+      // Get the last index of item in current page
+      const lastIndexOfMoviePage = state.page * Number(state.numberByPage) - 1;
+      // Get the first index of item in current page
+      const firstIndexOfMoviePage = lastIndexOfMoviePage + 1 - (state.numberByPage);
+
+      // Update number by page
       const numberByPage = action.payload;
       state.numberByPage = numberByPage;
 
-      state.page = 1;
-      state.pageCount = Math.ceil(state.movies.length / numberByPage);
+      // Update page count
+      let movies = applyCategoryFilterOnMovies(state);
+      state.pageCount = Math.ceil(movies.length / Number(numberByPage));
+
+      // Update current page
+      state.page = Math.ceil((firstIndexOfMoviePage + 1) / Number(numberByPage));
 
       // Maj moviesFiltered
-      let movies = state.movies;
-      if (state.category !== "") {
-        movies = movies.filter(movie => movie.category === state.category);
-      }
-      state.moviesFiltered = movies.slice(0, numberByPage);
+      state.moviesFiltered = applyCurrentPage(state);
     },
     pageSelected: (state, action) => {
       const page = action.payload;
       state.page = page;
 
-      // Page film's filter
-      let firstItemOfPage = 0;
-      if (page - 1) {
-        firstItemOfPage = (page - 1) * state.numberByPage;
-      }
-
-      let movies = state.movies;
-      if (state.category !== "") {
-        movies = movies.filter(movie => movie.category === state.category);
-      }
-
-      state.moviesFiltered = movies.slice(firstItemOfPage, firstItemOfPage + state.numberByPage);
+      state.moviesFiltered = applyCurrentPage(state);
     }
   },
   extraReducers(builder) {
@@ -181,7 +181,7 @@ export const moviesSlice = createSlice({
         }
 
         // Sort array by title ascending
-        movies = movies.sort((a, b) => {
+        movies = movies.slice().sort((a, b) => {
           if (a.title < b.title) {
             return -1;
           }
