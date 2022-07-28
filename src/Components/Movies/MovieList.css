@@ -1,0 +1,12 @@
+.MovieList-Container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  flex: 1;
+}
+
+.MovieList-LoaderContainer {
+  width: 100px;
+  align-self: center;
+}

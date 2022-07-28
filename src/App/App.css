@@ -1,0 +1,13 @@
+.App {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  height: 99vh;
+  text-align: center;
+}
+
+.App-Container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}

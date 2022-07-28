@@ -1,0 +1,96 @@
+.Movie-CategorieContainer {
+  display: flex;
+  align-items: center;
+}
+
+.Movie-CategoryText {
+  font-family: Amerio;
+  font-size: 0.8em;
+}
+
+.Movie-BottomContainer {
+  display: flex;
+  flex-direction: column;
+  margin-top: auto;
+  width: 100%;
+}
+
+.Movie-Container {
+  background-color: var(--main-text-color);
+  border-radius: 10px;
+  display: flex;
+  overflow: hidden;
+  width: 400px;
+  height: 250px;
+  max-width: 90%;
+  box-shadow: rgba(0, 0, 0, 0.5) 0px 3px 6px, rgba(0, 0, 0, 0.7) 0px 3px 6px;
+  position: relative;
+  margin: 10px;
+  animation: pop 100ms;
+}
+
+.Movie-Container:hover {
+  top: -5px;
+  transition: all 250ms;
+}
+
+.Movie-TrashContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+}
+
+.Movie-TrashContainer:hover {
+  cursor: pointer;
+}
+
+.Movie-ContentContainer {
+  box-shadow: white 0px -8px 20px 20px;
+  background-color: #fff;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex: 1;
+}
+
+.Movie-CountersContainer {
+  display: flex;
+  margin-bottom: 10px;
+  width: 90%;
+}
+
+.Movie-Icon {
+  margin-right: 5px;
+}
+
+.Movie-Title {
+  align-self: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: 1.4em;
+  font-weight: bold;
+}
+
+@media only screen and (max-width: 600px) {
+  .LikeCounter-Text {
+    font-size: 0.8rem;
+  }
+
+  .Movie-Container {
+    height: 180px;
+  }
+}
+
+@keyframes pop {
+  0% {
+    width: 0px;
+    height: 0px;
+  }
+
+  100% {
+    width: 400px;
+    height: 250px;
+  }
+}

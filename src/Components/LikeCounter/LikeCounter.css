@@ -1,0 +1,46 @@
+.LikeCounter-Container {
+  background-color: var(--main-bg-color);
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.5) 0px 3px 6px, rgba(0, 0, 0, 0.7) 0px 3px 6px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 5px;
+  width: 70px;
+}
+
+.LikeCounter-Icon {
+  color: var(--main-text-color);
+  margin-right: auto;
+  margin: 5px;
+}
+
+.LikeCounter-IconColor {
+  color: var(--main-border-color);
+  transition: all 200ms;
+}
+
+.LikeCounter-TextContainer {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.LikeCounter-Text {
+  color: var(--main-text-color);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+@media only screen and (max-width: 600px) {
+  .LikeCounter-Container {
+    width: 45px;
+  }
+
+  .LikeCounter-Text {
+    font-size: 0.8rem;
+  }
+}
