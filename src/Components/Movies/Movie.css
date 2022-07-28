@@ -27,11 +27,12 @@
   position: relative;
   margin: 10px;
   animation: pop 100ms;
+  top: 0;
 }
 
 .Movie-Container:hover {
   top: -5px;
-  transition: all 250ms;
+  transition: all 200ms;
 }
 
 .Movie-TrashContainer {
